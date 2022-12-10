@@ -8,3 +8,4 @@ This is my first Arduino project coded with vscode, so there might be some bugs 
 This project is a minigame device, with max7219 7 segment display(8 digits), and a 4x4 Keypad.
 
 ## How To Play
+*tba*
