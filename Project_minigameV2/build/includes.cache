@@ -1,0 +1,47 @@
+[
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino"
+  },
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\variants\\standard"
+  },
+  {
+    "Sourcefile": "c:\\Users\\superGirl\\Desktop\\.Codings\\Project_minigameV2\\build\\sketch\\Project_minigameV2.ino.cpp",
+    "Include": "LedControl.h",
+    "Includepath": "C:\\Users\\superGirl\\home\\Documents\\Arduino\\libraries\\LedControl\\src"
+  },
+  {
+    "Sourcefile": "c:\\Users\\superGirl\\Desktop\\.Codings\\Project_minigameV2\\build\\sketch\\Project_minigameV2.ino.cpp",
+    "Include": "Keypad.h",
+    "Includepath": "C:\\Users\\superGirl\\home\\Documents\\Arduino\\libraries\\Keypad\\src"
+  },
+  {
+    "Sourcefile": "c:\\Users\\superGirl\\Desktop\\.Codings\\Project_minigameV2\\build\\sketch\\Project_minigameV2.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "c:\\Users\\superGirl\\Desktop\\.Codings\\Project_minigameV2\\build\\sketch\\MiniGame.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\superGirl\\home\\Documents\\Arduino\\libraries\\LedControl\\src\\LedControl.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\superGirl\\home\\Documents\\Arduino\\libraries\\Keypad\\src\\Key.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\superGirl\\home\\Documents\\Arduino\\libraries\\Keypad\\src\\Keypad.cpp",
+    "Include": "",
+    "Includepath": null
+  }
+]
