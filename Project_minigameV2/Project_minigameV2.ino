@@ -170,7 +170,7 @@ void loop(){
                 }
             }
         }
-        else if(key!='A'||key!='B'||key!='C'||key!='D'){
+        else if(key!='A'&&key!='B'&&key!='C'&&key!='D'){
             if(displayCount!=userInCap){
                 if(displayCount==0){
                     monitor.clearDisplay(0);
