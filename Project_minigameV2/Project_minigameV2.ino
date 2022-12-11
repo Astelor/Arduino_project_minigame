@@ -42,7 +42,7 @@ int userInCap=4;
  * 1= display char*result, a 4 digit char array
  * 2= display pulled from userInput, no char array input needed
  */
-void userDisplay(int type=2,char *result="x"){
+void userDisplay(int type=2,const char *result="XXXX"){
     switch (type)
     {
     case 1:
