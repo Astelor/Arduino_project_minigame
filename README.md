@@ -1,15 +1,13 @@
+## Table of Contents
+- [Table of Contents](#table-of-contents)
+- [An Arduino Project](#an-arduino-project)
+- [Purpose](#purpose)
+- [How To Play](#how-to-play)
+  - [nAnB](#nanb)
+  - [Guess the Number](#guess-the-number)
+
 ## An Arduino Project
 this README is written and under development(+ the project itself) by *Astelor*
-
-## Table of Contents
-[Purpose](##Purpose)
-
-[How to Play](##How%20to%20Play)
-
-   [nAnB](###nAnB)
-
-   [Guess the Number](##Guess%20the%20Number)
-   
 
 ## Purpose
 >This is my first Arduino project coded with vscode, so there might be some bugs lurking somewhere underneath a leaf.
