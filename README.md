@@ -25,7 +25,7 @@ Since it's a ~~crappy~~ mini game device, a manual of instructions must be provi
 
 > If you want to know the answer key before solving it yourself, press `A`, the answer key will show up for 1 second before returning to the menu.
 >
-> If you want to play the game again, just press `A`, it'll generate another answer key and start a new game. 
+> If you want to play the game again, just press `A` again, it'll generate another answer key and start a new game. 
 ### Guess the Number
 *tba*
 
