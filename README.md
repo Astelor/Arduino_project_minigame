@@ -1,15 +1,19 @@
 ## An Arduino Project
-
-**this readme is written by Astelor**
+this README is written and under development(+ the project itself) by *Astelor*
 
 ## Table of Contents
 [Purpose](##Purpose)
-## Purpose
+[How to Play](##How%20to%20Play)
+   [nAnB](###nAnB)
+   [Guess the Number](##Guess%20the%20Number)
 
-This is my first Arduino project coded with vscode, so there might be some bugs lurking somewhere underneath a leaf.
-This project is a minigame device, with max7219 7 segment display(8 digits), and a 4x4 Keypad.
+## Purpose
+>This is my first Arduino project coded with vscode, so there might be some bugs lurking somewhere underneath a leaf.
+
+This project is a minigame device, with max7219 7 segment display(8 digits), and a 4x4 Keypad. Designed to perform simple number based games
 
 ## How To Play
+Since it's a ~~crappy~~ mini game device, a manual of instructions must be provided.
 ### nAnB
 1. When in `[======]` menu, press `A` for nAnB
 2. You have infinite guesses for the game, type in the answer using the 3x3 numberpad, use `*` as backspace and `#` as submitting the answer
