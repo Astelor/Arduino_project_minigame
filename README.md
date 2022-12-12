@@ -16,6 +16,7 @@ This project is a minigame device, with max7219 7 segment display(8 digits), and
 3. if the answer is correct, it'll display `4A0B` for 1 second before returning to the menu
 
 > If you want to know the answer key before solving it yourself, press `A`, the answer key will show up for 1 second before returning to the menu.
+
 > If you want to play the game again, just press `A`, it'll generate another answer key and start a new game. 
 ### Guess the Number
 *tba*
