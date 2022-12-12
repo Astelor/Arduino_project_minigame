@@ -2,6 +2,8 @@
 
 **this readme is written by Astelor**
 
+## Table of Contents
+[Purpose](## Purpose)
 ## Purpose
 
 This is my first Arduino project coded with vscode, so there might be some bugs lurking somewhere underneath a leaf.
