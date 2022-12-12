@@ -9,12 +9,14 @@ This project is a minigame device, with max7219 7 segment display(8 digits), and
 
 ## How To Play
 ### nAnB
-1. when in `[======]` menu, press `A` for nAnB
-2. you have infinite guesses for the game, type in the answer using the 3x3 numberpad, use `*` as backspace and `#` as submitting the answer
-3. if the answer is incorrect, it'll display the number of `A` and `B`. Repeat step 2 unitil you have the correct answer. `A` means you submitted the correct number on the correct digit, `B` means you submitted the correct number, but it's on the wrong digit.
-4. if the answer is correct, it'll display `4A0B` for 1 second before returning to the menu
+1. When in `[======]` menu, press `A` for nAnB
+2. You have infinite guesses for the game, type in the answer using the 3x3 numberpad, use `*` as backspace and `#` as submitting the answer
+   > Every number from 0~9 can appear more than once, for example:`9999` and `0909` can be a generated answer key.
+4. If the answer is incorrect, it'll display the number of `A` and `B`. Repeat step 2 unitil you have the correct answer. `A` means you submitted the correct number on the correct digit, `B` means you submitted the correct number, but it's on the wrong digit.
+3. if the answer is correct, it'll display `4A0B` for 1 second before returning to the menu
 
-> if you want to know the answer key before solving it yourself, press `A`, the answer key will show up for 1 second before returning to the menu.
-
+> If you want to know the answer key before solving it yourself, press `A`, the answer key will show up for 1 second before returning to the menu.
+> If you want to play the game again, just press `A`, it'll generate another answer key and start a new game. 
 ### Guess the Number
 *tba*
+
