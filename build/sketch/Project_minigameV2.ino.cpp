@@ -45,57 +45,54 @@ int displayCount=0;
  */
 #line 44 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
 void userDisplay(int type,const char *result);
-#line 58 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
+#line 56 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
 void userDisClear(int type);
-#line 64 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
+#line 62 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
 void userDisDel();
-#line 76 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
+#line 74 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
 void dimDigit(int num);
-#line 84 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
+#line 81 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
 void menuDisplay();
-#line 98 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
+#line 95 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
 void setup();
-#line 114 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
+#line 111 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
 void loop();
 #line 44 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
 void userDisplay(int type,const char *result){
     int temp=(type==0)? 4:displayCount;
     for(int i=0;i<4;i++){
-        if(i>=temp){
-            monitor.setDigit(0,abs(i-7),0b00000000,false);
-        }
+        if(i>=temp){dimDigit(i);}
         else{monitor.setChar(0,abs(i-7),result[i],false);}
     }
 }
 /*
  * Clear displayCount and userInput
  * int type(additional action):
- * 1= do clearDisplay
+ * 1--> do clearDisplay
  */
 void userDisClear(int type){
     displayCount=0;
     *userInput=(char)0;
-    if(type==1){monitor.clearDisplay(0);}
+    if(type==1){dimDigit(0);dimDigit(1);dimDigit(2);dimDigit(3);}
 }
 /* Backspace the userInput by one, then display it */
 void userDisDel(){
     if(displayCount>0){
         userInput[displayCount]={};
+        dimDigit(displayCount-1);
         displayCount--;
-        monitor.clearDisplay(0);
         userDisplay(1,userInput);
     }
     else{
         return;
     }
 }
-/* Dim a digit on display*/
+/* Dim a digit on display 0~7*/
 void dimDigit(int num){
     for(int i=0;i<8;i++){
-        
+        monitor.setLed(0,abs(num-7),i,false);
     }
 }
-
 
 /* Menu display sets */
 void menuDisplay(){
@@ -132,7 +129,7 @@ void loop(){
 	//char key = mykeypad.getKey();
     if(newGame){
         /*MENU SCREEN, nothing will happen before the user select a game*/
-        menuDisplay();
+        monitor.clearDisplay(0);menuDisplay();
         while(true){
             key=mykeypad.getKey();
             delay(5);
@@ -140,7 +137,7 @@ void loop(){
                 /*press A to play nAnB*/
                 Serial.println(key);
                 gameMode=0;
-                userDisClear(1);
+                userDisClear(0);monitor.clearDisplay(0);
                 nAnB.generateKey();
                 Serial.println(nAnB.getAnsKey());
                 newGame=false;
@@ -187,7 +184,7 @@ void loop(){
                     }
                 }
                 else if(key!='A'&&key!='B'&&key!='C'&&key!='D'){
-                    if(displayCount<=userInCap){//1~4
+                    if(displayCount<userInCap){//1~4
                         displayCount++;
                         userInput[displayCount-1]=key;
                         userDisplay(1,userInput);

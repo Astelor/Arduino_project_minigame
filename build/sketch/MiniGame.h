@@ -25,9 +25,9 @@ class MiniGame{
         int getHigh();*/
     private:
         //gameMode 0: nAnB
-        char AnswerKey[4];
         char ABs[4];
         char b[4];
+        char AnswerKey[4];
         
         /*
         //TBA...

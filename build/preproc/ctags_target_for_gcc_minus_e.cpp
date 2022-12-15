@@ -63,9 +63,7 @@ int displayCount=0;
 void userDisplay(int type,const char *result){
     int temp=(type==0)? 4:displayCount;
     for(int i=0;i<4;i++){
-        if(i>=temp){
-            monitor.setDigit(0,((i-7)>0?(i-7):-(i-7)),0b00000000,false);
-        }
+        if(i>=temp){dimDigit(i);}
         else{monitor.setChar(0,((i-7)>0?(i-7):-(i-7)),result[i],false);}
     }
 }
@@ -75,34 +73,33 @@ void userDisplay(int type,const char *result){
 
  * int type(additional action):
 
- * 1= do clearDisplay
+ * 1--> do clearDisplay
 
  */
-# 58 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
+# 56 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
 void userDisClear(int type){
     displayCount=0;
     *userInput=(char)0;
-    if(type==1){monitor.clearDisplay(0);}
+    if(type==1){dimDigit(0);dimDigit(1);dimDigit(2);dimDigit(3);}
 }
 /* Backspace the userInput by one, then display it */
 void userDisDel(){
     if(displayCount>0){
         userInput[displayCount]={};
+        dimDigit(displayCount-1);
         displayCount--;
-        monitor.clearDisplay(0);
         userDisplay(1,userInput);
     }
     else{
         return;
     }
 }
-/* Dim a digit on display*/
+/* Dim a digit on display 0~7*/
 void dimDigit(int num){
     for(int i=0;i<8;i++){
-
+        monitor.setLed(0,((num-7)>0?(num-7):-(num-7)),i,false);
     }
 }
-
 
 /* Menu display sets */
 void menuDisplay(){
@@ -121,7 +118,7 @@ void menuDisplay(){
  * Main Code
 
  *===========*/
-# 98 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
+# 95 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
 void setup(){
  Serial.begin(9600);
     monitor.shutdown(0,false);
@@ -137,7 +134,7 @@ void setup(){
  * true= yes->menu; false= no->stays in the current game
 
  */
-# 110 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
+# 107 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
 bool newGame=true;
 /*Only required when there's more than 1 game*/
 int gameMode=0;
@@ -146,7 +143,7 @@ void loop(){
  //char key = mykeypad.getKey();
     if(newGame){
         /*MENU SCREEN, nothing will happen before the user select a game*/
-        menuDisplay();
+        monitor.clearDisplay(0);menuDisplay();
         while(true){
             key=mykeypad.getKey();
             delay(5);
@@ -154,7 +151,7 @@ void loop(){
                 /*press A to play nAnB*/
                 Serial.println(key);
                 gameMode=0;
-                userDisClear(1);
+                userDisClear(0);monitor.clearDisplay(0);
                 nAnB.generateKey();
                 Serial.println(nAnB.getAnsKey());
                 newGame=false;
@@ -171,7 +168,7 @@ void loop(){
                 userDisClear(0);
 
             }*/
-# 138 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
+# 135 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
         }
     }
     else{
@@ -207,7 +204,7 @@ void loop(){
                     }
                 }
                 else if(key!='A'&&key!='B'&&key!='C'&&key!='D'){
-                    if(displayCount<=4){//1~4
+                    if(displayCount<4){//1~4
                         displayCount++;
                         userInput[displayCount-1]=key;
                         userDisplay(1,userInput);
