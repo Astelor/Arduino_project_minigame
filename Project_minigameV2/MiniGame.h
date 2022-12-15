@@ -13,6 +13,8 @@ class MiniGame{
         char* commitAnswer(char* answer);
         /*nAnB: Return the answer key unconditionally*/
         char* getAnsKey();
+        /*nAnB: Return the ABs*/
+        char* getABs();
         
         /*
         //TBA...

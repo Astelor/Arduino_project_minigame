@@ -1,10 +1,14 @@
+# I fucked this one up
+Damn it
+
 ## Table of Contents
-- [Table of Contents](#table-of-contents)
-- [An Arduino Project](#an-arduino-project)
-- [Purpose](#purpose)
-- [How To Play](#how-to-play)
-  - [nAnB](#nanb)
-  - [Guess the Number](#guess-the-number)
+- [I fucked this one up](#i-fucked-this-one-up)
+  - [Table of Contents](#table-of-contents)
+  - [An Arduino Project](#an-arduino-project)
+  - [Purpose](#purpose)
+  - [How To Play](#how-to-play)
+    - [nAnB](#nanb)
+    - [Guess the Number](#guess-the-number)
 
 ## An Arduino Project
 this README is written and under development(+ the project itself) by *Astelor*
