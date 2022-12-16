@@ -38,7 +38,7 @@ LedControl monitor=LedControl(dataPin,clkPin,csPin,1);
 MiniGame nAnB;
 //MiniGame ultiNumber;
 
-/*====================================
+/*=====================================/
 
  * Helper functions:
 
@@ -82,6 +82,12 @@ void userDisClear(int type){
     *userInput=(char)0;
     if(type==1){dimDigit(0);dimDigit(1);dimDigit(2);dimDigit(3);}
 }
+/* Dim a digit on display 0~7*/
+void dimDigit(int num){
+    for(int i=0;i<8;i++){
+        monitor.setLed(0,((num-7)>0?(num-7):-(num-7)),i,false);
+    }
+}
 /* Backspace the userInput by one, then display it */
 void userDisDel(){
     if(displayCount>0){
@@ -92,12 +98,6 @@ void userDisDel(){
     }
     else{
         return;
-    }
-}
-/* Dim a digit on display 0~7*/
-void dimDigit(int num){
-    for(int i=0;i<8;i++){
-        monitor.setLed(0,((num-7)>0?(num-7):-(num-7)),i,false);
     }
 }
 
@@ -112,13 +112,42 @@ void menuDisplay(){
     monitor.setLed(0,7,6,true);
     monitor.setLed(0,7,5,true);
 }
+/*VICTORY SCREEN WOOOOOO*/
+void victoryDisplay(){
+  for(int i=0;i<8;i++){
+    if(i==0){
+      monitor.setLed(0,i,1,true);
+    }
+    else{
+      monitor.setLed(0,i-1,1,false);
+      monitor.setLed(0,i,1,true);
+    }
+    delay(100);
+  }
+  monitor.setLed(0,7,1,false);monitor.setLed(0,7,6,true);delay(100);
+  monitor.setLed(0,7,6,false);monitor.setLed(0,7,5,true);delay(100);
+  monitor.setLed(0,7,5,false);
+  for(int i=7;i>=0;i--){
+    if(i==7){
 
-/*===========
+      monitor.setLed(0,i,4,true);
+    }
+    else{
+      monitor.setLed(0,i+1,4,false);
+      monitor.setLed(0,i,4,true);
+    }
+    delay(100);
+  }
+  monitor.setLed(0,0,4,false);monitor.setLed(0,0,3,true);delay(100);
+  monitor.setLed(0,0,3,false);monitor.setLed(0,0,2,true);delay(100);
+  monitor.setLed(0,0,2,false);
+}
+/*=========================
 
  * Main Code
 
- *===========*/
-# 95 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
+ *=========================*/
+# 124 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
 void setup(){
  Serial.begin(9600);
     monitor.shutdown(0,false);
@@ -134,7 +163,7 @@ void setup(){
  * true= yes->menu; false= no->stays in the current game
 
  */
-# 107 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
+# 136 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
 bool newGame=true;
 /*Only required when there's more than 1 game*/
 int gameMode=0;
@@ -145,7 +174,7 @@ void loop(){
         /*MENU SCREEN, nothing will happen before the user select a game*/
         monitor.clearDisplay(0);menuDisplay();
         while(true){
-            key=mykeypad.getKey();
+            key=mykeypad.waitForKey();
             delay(5);
             if(key=='A'){
                 /*press A to play nAnB*/
@@ -168,20 +197,16 @@ void loop(){
                 userDisClear(0);
 
             }*/
-# 135 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
+# 164 "e:\\!Github_Coding\\Arduino_project_minigame\\Arduino_project_minigame\\Project_minigameV2\\Project_minigameV2.ino"
         }
     }
     else{
         while(true){
-            key=mykeypad.getKey();
+            key=mykeypad.waitForKey();
             delay(5);
             if(key){
                 Serial.println(key);
-                if(key=='*'){
-                    /*Backspace the userInput by one, then display it*/
-                    userDisDel();
-                }
-                else if(key=='A'){
+                if(key=='A'){
                     /*Show answerKey for 1 second, then jump back to menu*/
                     userDisplay(0,nAnB.getAnsKey());
                     Serial.println(nAnB.getAnsKey());
@@ -193,17 +218,23 @@ void loop(){
                 else if(key=='#'){
                     /*Submit answer*/
                     if(displayCount==4){ //checks if the user gives a 4 digit answer
-                        userDisplay(0,nAnB.commitAnswer(userInput)); //display the ABs
+                        userDisplay(0,nAnB.commitAnswer(userInput));//display the ABs
                         userDisClear(0); //clear userInput
                         if(nAnB.getABs()[0]=='4'){ //4A-> you won the game!-> jump back to menu
                             delay(1000);
                             userDisClear(1);
                             newGame=true;
+                            victoryDisplay();
                             break;
                         }
                     }
                 }
-                else if(key!='A'&&key!='B'&&key!='C'&&key!='D'){
+                else if(key=='*'){
+                    /*Backspace the userInput by one, then display it*/
+                    userDisDel();
+                }
+                else if(key>='0'&&key<='9'){
+                    /*type in the numbers*/
                     if(displayCount<4){//1~4
                         displayCount++;
                         userInput[displayCount-1]=key;
