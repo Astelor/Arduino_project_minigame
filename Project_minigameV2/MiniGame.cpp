@@ -47,6 +47,9 @@ char* MiniGame::commitAnswer(char* answer){
 char* MiniGame::getAnsKey(){
     return AnswerKey;
 }
+char* MiniGame::getABs(){
+    return ABs;
+}
 /*
 //TBA...
 //gameMode 1: ultimate Number!

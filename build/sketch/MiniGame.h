@@ -13,6 +13,8 @@ class MiniGame{
         char* commitAnswer(char* answer);
         /*nAnB: Return the answer key unconditionally*/
         char* getAnsKey();
+        /*nAnB: Return the ABs*/
+        char* getABs();
         
         /*
         //TBA...
@@ -23,9 +25,9 @@ class MiniGame{
         int getHigh();*/
     private:
         //gameMode 0: nAnB
-        char AnswerKey[4];
         char ABs[4];
         char b[4];
+        char AnswerKey[4];
         
         /*
         //TBA...

@@ -1,10 +1,14 @@
+# Fully Operational now
+woooo
+
 ## Table of Contents
-- [Table of Contents](#table-of-contents)
-- [An Arduino Project](#an-arduino-project)
-- [Purpose](#purpose)
-- [How To Play](#how-to-play)
-  - [nAnB](#nanb)
-  - [Guess the Number](#guess-the-number)
+- [Fully Operational now](#fully-operational-now)
+  - [Table of Contents](#table-of-contents)
+  - [An Arduino Project](#an-arduino-project)
+  - [Purpose](#purpose)
+  - [How To Play](#how-to-play)
+    - [nAnB](#nanb)
+    - [Guess the Number](#guess-the-number)
 
 ## An Arduino Project
 this README is written and under development(+ the project itself) by *Astelor*

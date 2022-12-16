@@ -1,5 +1,6 @@
 {
     "sketch": "Project_minigameV2\\Project_minigameV2.ino",
     "board": "arduino:avr:uno",
-    "output": "build"
+    "output": "build",
+    "port": "COM6"
 }
