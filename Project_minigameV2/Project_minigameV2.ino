@@ -124,6 +124,15 @@ void victoryDisplay(){
   monitor.setLed(0,0,2,false);
 }
 
+/*Animation for showing answer in advance*/
+void seeAnsDisplay(){
+    for(int i=0;i<8;i++){
+        dimDigit(abs(i-7));
+        monitor.setLed(0,i,7,true);
+        delay(100);
+    }
+}
+
 /*=========================
  * Main Code
  *=========================*/
@@ -184,6 +193,7 @@ void loop(){
                     delay(1000);
                     userDisClear(0);
                     newGame=true;
+                    seeAnsDisplay();
                     break;
                 }
                 else if(key=='#'){
