@@ -15,5 +15,4 @@ e:\!Github_Coding\Arduino_project_minigame\Arduino_project_minigame\build\sketch
  C:\Users\superGirl\home\Documents\Arduino\libraries\Keypad\src/Keypad.h \
  C:\Users\superGirl\home\Documents\Arduino\libraries\Keypad\src/Key.h \
  e:\!Github_Coding\Arduino_project_minigame\Arduino_project_minigame\build\sketch\keys_config.h \
- e:\!Github_Coding\Arduino_project_minigame\Arduino_project_minigame\build\sketch\MiniGame.h \
- e:\!Github_Coding\Arduino_project_minigame\Arduino_project_minigame\build\sketch\pitches.h
+ e:\!Github_Coding\Arduino_project_minigame\Arduino_project_minigame\build\sketch\MiniGame.h
