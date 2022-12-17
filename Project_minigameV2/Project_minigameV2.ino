@@ -15,7 +15,6 @@
 #include <Keypad.h>
 #include "keys_config.h"
 #include "MiniGame.h"
-#include "pitches.h"
 
 /*initialize keypad*/ 
 Keypad mykeypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
