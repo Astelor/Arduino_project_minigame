@@ -1,26 +1,12 @@
-## Presentaion link
-[the link](https://docs.google.com/presentation/d/1-4z-uZxk29q2ZRX8z4202PpglXfXAVBD0lb-Cz00d_g/edit#slide=id.g1bbcd57f129_0_0)
-
 ## Table of Contents
-- [Fully Operational now](#fully-operational-now)
-  - [Table of Contents](#table-of-contents)
-  - [An Arduino Project](#an-arduino-project)
-  - [Purpose](#purpose)
-  - [How To Play](#how-to-play)
-    - [nAnB](#nanb)
-    - [Guess the Number](#guess-the-number)
-
-## An Arduino Project
-this README is written and under development(+ the project itself) by *Astelor*
-
-## Purpose
->This is my first Arduino project coded with vscode, so there might be some bugs lurking somewhere underneath a leaf.
-
-This project is a minigame device, with max7219 7 segment display(8 digits), and a 4x4 Keypad. Designed to perform simple number based games
+- [Table of Contents](#table-of-contents)
+- [How To Play](#how-to-play)
+  - [nAnB](#nanb)
 
 ## How To Play
 Since it's a ~~crappy~~ mini game device, a manual of instructions must be provided.
 ### nAnB
+
 1. When in `[======]` menu, press `A` for nAnB
 2. You have infinite guesses for the game, type in the answer using the 3x3 numberpad, use `*` as backspace and `#` as submitting the answer
    > Every number from 0~9 can appear more than once, for example:`9999` and `0909` can be a generated answer key.
@@ -30,6 +16,5 @@ Since it's a ~~crappy~~ mini game device, a manual of instructions must be provi
 > If you want to know the answer key before solving it yourself, press `A`, the answer key will show up for 1 second before returning to the menu.
 >
 > If you want to play the game again, just press `A` again, it'll generate another answer key and start a new game. 
-### Guess the Number
-*tba*
+
 
