@@ -1,7 +1,7 @@
 /* 
  * Project_minigameV2.ino is coded by Astelor
- * CodeSource.txt is coded by 吳捷宇 
- * MiniGame.cpp is a modification of CodeSouce, modified by Astelor
+ * CodeSource.cpp is coded by 吳捷宇 
+ * MiniGame.cpp is a modification of CodeSouce, coded by Astelor
  * 
  * This picture was here for emotional support
  * https://cdn.frankerfacez.com/emoticon/335816/2
