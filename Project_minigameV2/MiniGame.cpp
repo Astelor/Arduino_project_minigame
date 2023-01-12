@@ -47,17 +47,6 @@ char* MiniGame::getABs(){
 }
 
 //gameMode 1: ultimate Number!
-int MiniGame::int_to_char(int num, char* arr){
-    for(int i=1;i<=4;i++){ //get the digits of num
-        int tens=pow(10,i);
-        if(num%tens==num){
-            return i;
-        }
-        else{
-            arr[i-1]='0'+(num%tens-(num%(tens/10)));//0~? start from the least sig digit
-        }
-    }
-}
 void MiniGame::generateKey_1(){
     unsigned long myTime;
     myTime=millis();
@@ -66,10 +55,20 @@ void MiniGame::generateKey_1(){
     rangeSmall=1;rangeLarge=1000;
     int_to_char(AnswerKey_1,AnswerKey_1_char);
 }
+
+/*helper function*/
+void MiniGame::int_to_char(int num, char* arr){
+    int len=getLength(num); //get the digits of num
+    *arr=(char)0;
+    for(int i=len-1;i>=0;i--){
+        int tens=(pow(10,len-i)+0.5);
+        arr[i]='0'+(num%tens-num%(tens/10))/(tens/10);
+    }
+}
 int MiniGame::commitNumber(char* answer,int len){
     int num=0;
     for(int i=0;i<len;i++){
-        num+=answer[i]*(int)(pow(10,len-i-1)+0.5);
+        num+=(answer[i]-'0')*(int)(pow(10,len-i-1)+0.5);
     }
     if(num==AnswerKey_1){//correct answer
         return 1;
@@ -107,16 +106,24 @@ int MiniGame::getAnsKey_1(){
 char* MiniGame::getAnsKey_1_char(){
     return AnswerKey_1_char;
 }
+
+/*helper function*/
+int MiniGame::getLength(int num){
+    for(int i=1;i<=4;i++){
+        int tens=(pow(10,i)+0.5);
+        if(num%tens==num){return i;}
+    }
+}
 int MiniGame::length(char index){
     switch (index){
     case 'L':
-        return sizeof(small)/sizeof(char);
+        return getLength(rangeSmall);
         break;
     case 'H':
-        return sizeof(large)/sizeof(char);
+        return getLength(rangeLarge);
         break;
     case 'A':
-        return sizeof(AnswerKey_1_char)/sizeof(char);
+        return getLength(AnswerKey_1);
         break;
     default:
         break;

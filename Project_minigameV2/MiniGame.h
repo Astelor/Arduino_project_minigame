@@ -17,8 +17,6 @@ class MiniGame{
         char* getABs();
         
         //gameMode 1: ultimate Number!
-        /*returns the length of the array*/
-        int int_to_char(int,char* arr);
         /*GTN: Generate the answer key*/
         void generateKey_1();
         /* GTN: check the number
@@ -44,6 +42,8 @@ class MiniGame{
         char AnswerKey[4];
         
         //gameMode 1: ultimate Number!
+        void int_to_char(int, char*arr);
+        int getLength(int);
         int AnswerKey_1;
         int rangeSmall;
         int rangeLarge;

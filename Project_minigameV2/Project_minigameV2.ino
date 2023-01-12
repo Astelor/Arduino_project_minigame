@@ -123,6 +123,47 @@ void seeAnsDisplay(){
     monitor.setLed(0,0,3,true);
 }
 
+/*Animation for out-of-range warning*/
+void outaRangeDisplay(){
+        byte arr[]{
+        0b10111000,// o
+        0b00111000,// u
+        0b11110000,// t
+        0b00000000,
+        0b10111000,// o
+        0b11100010,// F
+        0b00000000,
+        0b10100000,// r
+        0b11101110,// A
+        0b10101000,// n
+        0b11011110,// g
+        0b11110010,// E
+        0b00000000};
+        for(int i=0;i<8;i++){
+        for(int k=0;k<=i;k++){
+            for(int j=0;j<8;j++){
+                monitor.setLed(0,k,j,bitRead(arr[i-k],j)); //0~7
+            }
+        }
+        delay(200);
+    }
+    for(int i=8;i<=12;i++){
+        for(int k=0;k<8;k++){
+            for(int j=0;j<8;j++){
+                monitor.setLed(0,k,j,bitRead(arr[i-k],j)); //8~12
+            }
+        }
+        delay(200);
+    }
+    for(int i=1;i<8;i++){
+        for(int k=0;k<8-i;k++){
+            for(int j=0;j<8;j++){
+                monitor.setLed(0,k+i,j,bitRead(arr[12-k],j)); //12~end
+            }
+        }
+        delay(200);
+    }
+}
 /*===================Main Code===================*/
 
 void setup(){
@@ -169,7 +210,7 @@ void loop(){
     }
     //}
     //else{
-    while(gamemode==0){
+    while(gamemode==0 &&newGame==false){
         key=mykeypad.waitForKey();
         delay(5);
         if(key){
@@ -215,14 +256,15 @@ void loop(){
             }
         }
     }
-    while(gamemode==1){
+    char range[8]={"1-1000"}; //range of the guessing numbers, reset
+    int lowLen=1;int highLen=4;int netLen=5; //reset
+    while(gamemode==1 && newGame==false){
         key=mykeypad.waitForKey();
-        char range[8]={}; //range of the guessing numbers
         delay(5);
         if(key){
             Serial.println(key);
             switch (key){
-            case '0'...'9':
+            case '0'...'9':{
                 /*type in the numbers*/
                 if(displayCount<userInCap){//1~4
                     displayCount++;
@@ -230,53 +272,72 @@ void loop(){
                     userDisplay(displayCount,userInput);
                 }
                 break;
-            case 'C':
+                }
+            case 'C':{
                 /*Show the answer. If key C is released, jump back to menu screen*/
                 userDisplay(guessNum.length('A'),guessNum.getAnsKey_1_char());
                 Serial.println(guessNum.getAnsKey_1());
-                while(mykeypad.isPressed('C')){delay(100);}
+                delay(50);
+                while(true){
+                    if(mykeypad.getKey()=='C'){break;}
+                    else{delay(100);}
+                }
                 userDisClear(0);newGame=true;//reset
                 seeAnsDisplay();//animation + reset
                 break;
-            case 'D': //**display function**
-                /*press to display the current number range*/
-                while(mykeypad.isPressed('D')){ //hold the key to keep the display
-                    delay(100);
                 }
+            case 'D':{ //**display function**
+                /*press to display the current number range*/
+                for(int i=0;i<4;i++){dimDigit(i);}
+                userDisplay(netLen+1,range);
+                delay(50);
+                while(true){
+                    if(mykeypad.getKey()=='D'){break;}
+                    else{delay(100);}
+                }//hold the key to keep the display
+                userDisplay(displayCount,userInput);
                 break;
-            case '#':
+                }
+            case '#':{
                 /*submit answer*/
                 int temp=guessNum.commitNumber(userInput,displayCount);
                 switch (temp){
-                case -1: //out-of-range
+                case -1:{ //out-of-range
                     //NOTE: just display the curent range
-                    //userDisplay();
+                    outaRangeDisplay();
+                    delay(150);
+                    userDisClear(0);
+                    userDisplay(netLen+1,range);
                     break;
-                case 0:  //valid number, display the updated range
-                    *range=(char)0;userDisClear(0); //reset
-                    int lowLen=guessNum.length('L');
-                    int highLen=guessNum.length('H');
-                    int netLen=lowLen+highLen;
+                    }
+                case 0:{  //valid number, display the updated range
+                    *range=(char)0; userDisClear(0); //reset
+                    lowLen=guessNum.length('L');
+                    highLen=guessNum.length('H');
+                    netLen=lowLen+highLen;
                     char*rangeL=guessNum.getLow();
                     char*rangeH=guessNum.getHigh();
-                    for(int i=0;i<lowLen;i++){
-                        range[i]=rangeL[i];
+                    for(int i=0;i<netLen+1;i++){
+                        if(i<lowLen){range[i]=rangeL[i];}
+                        else if(i==lowLen){range[i]='-';}
+                        else{range[i]=rangeH[i-lowLen-1];}
                     }
-                    range[lowLen]='-';
-                    for(int i=lowLen+1;i<netLen+1;i++){
-                        range[i]=rangeH[i];
-                    }
+                    userDisplay(netLen+1,range);
+                    userDisClear(0);//reset
                     break;
-                case 1:  //valid number, correct number, end of game
-                    delay(1000);
-                    userDisClear(8);newGame=true;//reset
+                    }
+                case 1:{  //correct number, end of game
+                    userDisClear(0);newGame=true; //reset
+                    delay(150);
                     victoryDisplay();
                     break;
+                    }
                 default:
                     break;
                 }
                 break;
-            case '*':
+            }
+            case '*':{
                 /*Backspace the userInput by one, then display it*/
                 if(displayCount>0){
                     userInput[displayCount]={};
@@ -286,6 +347,7 @@ void loop(){
                 break;
             default:
                 break;
+                }
             }
         }
     }
