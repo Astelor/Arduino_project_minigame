@@ -88,6 +88,7 @@ void menuDisplay(){
 /*VICTORY SCREEN WOOOOOO*/
 void victoryDisplay(){
     byte arr[]{
+        0b10000000,//-
         0b11011100,//Y
         0b10111000,//o
         0b00111000,//u
@@ -137,14 +138,14 @@ void victoryDisplay(){
         0b00011110
     }
     };
-    int length=15-1;
+    int length=16-1;
     for(int i=0;i<8;i++){
         for(int k=0;k<=i;k++){
             for(int j=0;j<8;j++){
                 monitor.setLed(0,k,j,bitRead(arr[i-k],j)); //0~7
             }
         }
-        delay(200);
+        delay(150);
     }
     for(int i=8;i<=length;i++){
         for(int k=0;k<8;k++){
@@ -152,16 +153,16 @@ void victoryDisplay(){
                 monitor.setLed(0,k,j,bitRead(arr[i-k],j)); //8~length
             }
         }
-        delay(200);
+        delay(150);
     }
-    delay(700);
+    delay(500);
     for(int i=0;i<3;i++){
         for(int k=0;k<8;k++){
             for(int j=0;j<8;j++){
                 monitor.setLed(0,k,j,bitRead(arr2[i][7-k],j));
             }
         }
-        delay(200);
+        delay(150);
     }
 }
 
@@ -245,14 +246,13 @@ bool newGame=true;
 int gamemode=0;
 char key=mykeypad.getKey();
 void loop(){
-	//char key = mykeypad.getKey();
-    //if(newGame){
     /*MENU SCREEN, nothing will happen before the user select a game*/
     monitor.clearDisplay(0);menuDisplay();
     while(newGame){
         key=mykeypad.waitForKey();
         delay(5);
-        if(key=='A'){
+        switch (key){
+        case 'A':{
             /*press A to play nAnB*/
             Serial.println(key);
             userDisClear(0);monitor.clearDisplay(0);
@@ -261,7 +261,7 @@ void loop(){
             newGame=false;gamemode=0;
             break;
         }
-        else if(key=='B'){
+        case 'B':{
             /*press B to play GuessTheNumber*/
             Serial.println(key);
             userDisClear(0);monitor.clearDisplay(0);
@@ -270,23 +270,26 @@ void loop(){
             newGame=false;gamemode=1;
             break;
         }
+        default:
+            break;
+        }
     }
-    //}
-    //else{
     while(gamemode==0 &&newGame==false){
         key=mykeypad.waitForKey();
         delay(5);
         if(key){
             Serial.println(key);
-            if(key>='0'&&key<='9'){
+            switch (key){
+            case '0'...'9':{
                 /*type in the numbers*/
                 if(displayCount<userInCap){//1~4
                     displayCount++;
                     userInput[displayCount-1]=key;
                     userDisplay(displayCount,userInput);
                 }
+                break;
             }
-            else if(key=='C'){
+            case 'C':{
                 /*Show answerKey for 1 second, then jump back to menu*/
                 userDisplay(4,nAnB.getAnsKey());
                 Serial.println(nAnB.getAnsKey());
@@ -295,7 +298,18 @@ void loop(){
                 seeAnsDisplay();
                 break;
             }
-            else if(key=='#'){
+            case 'D':{
+                for(int i=0;i<4;i++){dimDigit(i);}
+                userDisplay(4,nAnB.getABs());
+                delay(50);
+                while(true){
+                    if(mykeypad.getKey()=='D'){break;}
+                    else{delay(100);}
+                }//hold the key to keep the display
+                userDisplay(displayCount,userInput);
+                break;
+            }
+            case '#':{
                 /*Submit answer*/
                 if(displayCount==4){                            //checks if the user gives a 4 digit answer
                     userDisplay(4,nAnB.commitAnswer(userInput));//display the ABs
@@ -309,13 +323,16 @@ void loop(){
                     }
                 }
             }
-            else if(key=='*'){
+            case '*':{
                 /*Backspace the userInput by one, then display it*/
                 if(displayCount>0){
                     userInput[displayCount]={};
                     dimDigit(--displayCount);
                     userDisplay(displayCount,userInput);
                 }
+            }
+            default:
+                break;
             }
         }
     }
@@ -414,5 +431,4 @@ void loop(){
             }
         }
     }
-    //}
 }

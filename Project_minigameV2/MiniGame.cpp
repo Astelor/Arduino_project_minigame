@@ -7,7 +7,7 @@ void MiniGame::generateKey(){
     unsigned long myTime;
     myTime=millis();
     srand(myTime);
-    for(int i=0; i<4; i++) {AnswerKey[i]=(rand()%10)+'0';}
+    for(int i=0; i<4; i++) {AnswerKey[i]=(rand()%10)+'0';ABs[i]='-';}
 }
 
 char* MiniGame::commitAnswer(char* answer){
