@@ -8,7 +8,7 @@
  * 
  * NOTE:
  * This project was coded using vscode, 
- * the compatibility with Arduino IDE has yet to be tested.
+ * the compatibility with Arduino IDE has yet to be tested.*
  */
 
 #include <LedControl.h>
@@ -23,6 +23,7 @@ int dataPin=12,clkPin=10,csPin=11;
 LedControl monitor=LedControl(dataPin,clkPin,csPin,1);
 /*initilize minigame*/
 MiniGame nAnB;
+MiniGame guessNum;
 //MiniGame ultiNumber;
 
 /*=====================================/
@@ -42,22 +43,21 @@ int displayCount=0;
 /* Display the char array in userInput, 0~3
  * type 0= full 4; 1=displaycount
  */
-void userDisplay(int type,const char *result){
-    int temp=(type==0)? 4:displayCount;
-    for(int i=0;i<4;i++){
-        if(i>=temp){dimDigit(i);}
-        else{monitor.setChar(0,abs(i-7),result[i],false);}
+void userDisplay(int len,const char *result){
+    for(int i=0;i<8;i++){
+        if(i>=len){dimDigit(i);}
+        else{monitor.setChar(0,7-i,result[i],false);}
     }
 }
 
 /* clear displayCount and userInput
- * int type(additional action):
- * 1--> dim digit 0~3
+ * int len:
+ * dim the length of digits
  */
-void userDisClear(int type){
+void userDisClear(int len){
     displayCount=0;
     *userInput=(char)0;
-    if(type==1){dimDigit(0);dimDigit(1);dimDigit(2);dimDigit(3);}
+    for(int i=0;i<len;i++){dimDigit(i);}
 }
 
 /* dim the designated digit (0~7)*/
@@ -66,6 +66,12 @@ void dimDigit(int num){
         monitor.setLed(0,abs(num-7),i,false);
     }
 }
+
+
+/*functions for gamemode 1*/
+//idk, maybe I should refine the functioins for gamemode 0
+
+/*===================cosmetics===================*/
 
 /* Menu display sets */
 void menuDisplay(){
@@ -117,91 +123,171 @@ void seeAnsDisplay(){
     monitor.setLed(0,0,3,true);
 }
 
-/*=========================
- * Main Code
- *=========================*/
+/*===================Main Code===================*/
+
 void setup(){
 	Serial.begin(9600);
     monitor.shutdown(0,false);
     monitor.setIntensity(0,8);
     monitor.clearDisplay(0);
     userDisClear(1);
-    Serial.println("Version06");
+    Serial.println("New added game");
 }
 
 /* Decides if it's the start of a new game
- * true= yes->menu; false= no->stays in the current game
+ * true= yes→menu; false= no→stays in the current game
  */
 bool newGame=true;
-
+int gamemode=0;
 char key=mykeypad.getKey();
 void loop(){
 	//char key = mykeypad.getKey();
-    if(newGame){
-        /*MENU SCREEN, nothing will happen before the user select a game*/
-        monitor.clearDisplay(0);menuDisplay();
-        while(true){
-            key=mykeypad.waitForKey();
-            delay(5);
-            if(key=='A'){
-                /*press A to play nAnB*/
-                Serial.println(key);
-                userDisClear(0);monitor.clearDisplay(0);
-                nAnB.generateKey();
+    //if(newGame){
+    /*MENU SCREEN, nothing will happen before the user select a game*/
+    monitor.clearDisplay(0);menuDisplay();
+    while(newGame){
+        key=mykeypad.waitForKey();
+        delay(5);
+        if(key=='A'){
+            /*press A to play nAnB*/
+            Serial.println(key);
+            userDisClear(0);monitor.clearDisplay(0);
+            nAnB.generateKey();
+            Serial.println(nAnB.getAnsKey());
+            newGame=false;gamemode=0;
+            break;
+        }
+        else if(key=='B'){
+            /*press B to play GuessTheNumber*/
+            Serial.println(key);
+            userDisClear(0);monitor.clearDisplay(0);
+            guessNum.generateKey_1();
+            Serial.println(guessNum.getAnsKey_1());
+            newGame=false;gamemode=1;
+            break;
+        }
+    }
+    //}
+    //else{
+    while(gamemode==0){
+        key=mykeypad.waitForKey();
+        delay(5);
+        if(key){
+            Serial.println(key);
+            if(key>='0'&&key<='9'){
+                /*type in the numbers*/
+                if(displayCount<userInCap){//1~4
+                    displayCount++;
+                    userInput[displayCount-1]=key;
+                    userDisplay(displayCount,userInput);
+                }
+            }
+            else if(key=='C'){
+                /*Show answerKey for 1 second, then jump back to menu*/
+                userDisplay(4,nAnB.getAnsKey());
                 Serial.println(nAnB.getAnsKey());
-                newGame=false;
+                delay(1000);
+                userDisClear(0);newGame=true;//reset
+                seeAnsDisplay();
+                break;
+            }
+            else if(key=='#'){
+                /*Submit answer*/
+                if(displayCount==4){                            //checks if the user gives a 4 digit answer
+                    userDisplay(4,nAnB.commitAnswer(userInput));//display the ABs
+                    userDisClear(0);                            //clear userInput
+                    if(nAnB.getABs()[0]=='4'){                  //4A-> you won the game!-> jump back to menu
+                        delay(1000);
+                        userDisClear(0);
+                        newGame=true;
+                        victoryDisplay();
+                        break;
+                    }
+                }
+            }
+            else if(key=='*'){
+                /*Backspace the userInput by one, then display it*/
+                if(displayCount>0){
+                    userInput[displayCount]={};
+                    dimDigit(--displayCount);
+                    userDisplay(displayCount,userInput);
+                }
+            }
+        }
+    }
+    while(gamemode==1){
+        key=mykeypad.waitForKey();
+        char range[8]={}; //range of the guessing numbers
+        delay(5);
+        if(key){
+            Serial.println(key);
+            switch (key){
+            case '0'...'9':
+                /*type in the numbers*/
+                if(displayCount<userInCap){//1~4
+                    displayCount++;
+                    userInput[displayCount-1]=key;
+                    userDisplay(displayCount,userInput);
+                }
+                break;
+            case 'C':
+                /*Show the answer. If key C is released, jump back to menu screen*/
+                userDisplay(guessNum.length('A'),guessNum.getAnsKey_1_char());
+                Serial.println(guessNum.getAnsKey_1());
+                while(mykeypad.isPressed('C')){delay(100);}
+                userDisClear(0);newGame=true;//reset
+                seeAnsDisplay();//animation + reset
+                break;
+            case 'D': //**display function**
+                /*press to display the current number range*/
+                while(mykeypad.isPressed('D')){ //hold the key to keep the display
+                    delay(100);
+                }
+                break;
+            case '#':
+                /*submit answer*/
+                int temp=guessNum.commitNumber(userInput,displayCount);
+                switch (temp){
+                case -1: //out-of-range
+                    //NOTE: just display the curent range
+                    //userDisplay();
+                    break;
+                case 0:  //valid number, display the updated range
+                    *range=(char)0;userDisClear(0); //reset
+                    int lowLen=guessNum.length('L');
+                    int highLen=guessNum.length('H');
+                    int netLen=lowLen+highLen;
+                    char*rangeL=guessNum.getLow();
+                    char*rangeH=guessNum.getHigh();
+                    for(int i=0;i<lowLen;i++){
+                        range[i]=rangeL[i];
+                    }
+                    range[lowLen]='-';
+                    for(int i=lowLen+1;i<netLen+1;i++){
+                        range[i]=rangeH[i];
+                    }
+                    break;
+                case 1:  //valid number, correct number, end of game
+                    delay(1000);
+                    userDisClear(8);newGame=true;//reset
+                    victoryDisplay();
+                    break;
+                default:
+                    break;
+                }
+                break;
+            case '*':
+                /*Backspace the userInput by one, then display it*/
+                if(displayCount>0){
+                    userInput[displayCount]={};
+                    dimDigit(--displayCount);
+                    userDisplay(displayCount,userInput);
+                }
+                break;
+            default:
                 break;
             }
         }
     }
-    else{
-        while(true){
-            key=mykeypad.waitForKey();
-            delay(5);
-            if(key){
-                Serial.println(key);
-                if(key=='A'){
-                    /*Show answerKey for 1 second, then jump back to menu*/
-                    userDisplay(0,nAnB.getAnsKey());
-                    Serial.println(nAnB.getAnsKey());
-                    delay(1000);
-                    userDisClear(0);
-                    newGame=true;
-                    seeAnsDisplay();
-                    break;
-                }
-                else if(key=='#'){
-                    /*Submit answer*/
-                    if(displayCount==4){                            //checks if the user gives a 4 digit answer
-                        userDisplay(0,nAnB.commitAnswer(userInput));//display the ABs
-                        userDisClear(0);                            //clear userInput
-                        if(nAnB.getABs()[0]=='4'){                  //4A-> you won the game!-> jump back to menu
-                            delay(1000);
-                            userDisClear(0);
-                            newGame=true;
-                            victoryDisplay();
-                            break;
-                        }
-                    }
-                }
-                else if(key=='*'){
-                    /*Backspace the userInput by one, then display it*/
-                    if(displayCount>0){
-                        userInput[displayCount]={};
-                        dimDigit(displayCount-1);
-                        displayCount--;
-                        userDisplay(1,userInput);
-                    }
-                }
-                else if(key>='0'&&key<='9'){
-                    /*type in the numbers*/
-                    if(displayCount<userInCap){//1~4
-                        displayCount++;
-                        userInput[displayCount-1]=key;
-                        userDisplay(1,userInput);
-                    }
-                }
-            }
-        }
-    }
+    //}
 }
