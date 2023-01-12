@@ -87,19 +87,82 @@ void menuDisplay(){
 
 /*VICTORY SCREEN WOOOOOO*/
 void victoryDisplay(){
-  for(int i=0;i<8;i++){
-    dimDigit(abs(i-7));
-    monitor.setLed(0,i,1,true);
-    delay(100);
-  }
-  monitor.setLed(0,7,6,true);delay(100);
-  monitor.setLed(0,7,5,true);delay(100);
-  for(int i=7;i>=0;i--){
-    monitor.setLed(0,i,4,true);
-    delay(100);
-  }
-  monitor.setLed(0,0,3,true);delay(100);
-  monitor.setLed(0,0,2,true);delay(100);
+    byte arr[]{
+        0b11011100,//Y
+        0b10111000,//o
+        0b00111000,//u
+        0b00000000,
+        0b11101100,//W
+        0b10111000,//o
+        0b10101000,//n
+        0b10000000,//-1
+        0b10000000,//-2
+        0b10000000,//-3
+        0b10000000,//-4
+        0b10000000,//-5
+        0b10000000,//-6
+        0b10000000,//-7
+        0b10000000//-8
+        //0b00000000
+    };
+    byte arr2[][8]{
+    {
+        0b01000010,
+        0b00000010,
+        0b00000010,
+        0b00000010,
+        0b00000010,
+        0b00000010,
+        0b00000010,
+        0b00000110
+    },
+    {
+        0b11000010,
+        0b10000010,
+        0b10000010,
+        0b10000010,
+        0b10000010,
+        0b10000010,
+        0b10000010,
+        0b10000110
+    },
+    {
+        0b01110010,
+        0b00010010,
+        0b00010010,
+        0b00010010,
+        0b00010010,
+        0b00010010,
+        0b00010010,
+        0b00011110
+    }
+    };
+    int length=15-1;
+    for(int i=0;i<8;i++){
+        for(int k=0;k<=i;k++){
+            for(int j=0;j<8;j++){
+                monitor.setLed(0,k,j,bitRead(arr[i-k],j)); //0~7
+            }
+        }
+        delay(200);
+    }
+    for(int i=8;i<=length;i++){
+        for(int k=0;k<8;k++){
+            for(int j=0;j<8;j++){
+                monitor.setLed(0,k,j,bitRead(arr[i-k],j)); //8~length
+            }
+        }
+        delay(200);
+    }
+    delay(700);
+    for(int i=0;i<3;i++){
+        for(int k=0;k<8;k++){
+            for(int j=0;j<8;j++){
+                monitor.setLed(0,k,j,bitRead(arr2[i][7-k],j));
+            }
+        }
+        delay(200);
+    }
 }
 
 /*Animation for showing answer in advance*/
