@@ -293,7 +293,10 @@ void loop(){
                 /*Show answerKey for 1 second, then jump back to menu*/
                 userDisplay(4,nAnB.getAnsKey());
                 Serial.println(nAnB.getAnsKey());
-                delay(1000);
+                while(true){//press ankey to return
+                    if(mykeypad.getKey()){break;}
+                    else{delay(100);}
+                }
                 userDisClear(0);newGame=true;//reset
                 seeAnsDisplay();
                 break;
@@ -302,10 +305,10 @@ void loop(){
                 for(int i=0;i<4;i++){dimDigit(i);}
                 userDisplay(4,nAnB.getABs());
                 delay(50);
-                while(true){
-                    if(mykeypad.getKey()=='D'){break;}
+                while(true){//press anykey to return
+                    if(mykeypad.getKey()){break;}
                     else{delay(100);}
-                }//hold the key to keep the display
+                }
                 userDisplay(displayCount,userInput);
                 break;
             }
@@ -319,9 +322,9 @@ void loop(){
                         userDisClear(0);
                         newGame=true;
                         victoryDisplay();
-                        break;
                     }
                 }
+                break;
             }
             case '*':{
                 /*Backspace the userInput by one, then display it*/
@@ -330,6 +333,7 @@ void loop(){
                     dimDigit(--displayCount);
                     userDisplay(displayCount,userInput);
                 }
+                break;
             }
             default:
                 break;
@@ -352,34 +356,35 @@ void loop(){
                     userDisplay(displayCount,userInput);
                 }
                 break;
-                }
+            }
             case 'C':{
-                /*Show the answer. If key C is released, jump back to menu screen*/
+                /*Show the answer*/
                 userDisplay(guessNum.length('A'),guessNum.getAnsKey_1_char());
                 Serial.println(guessNum.getAnsKey_1());
                 delay(50);
                 while(true){
-                    if(mykeypad.getKey()=='C'){break;}
+                    if(mykeypad.getKey()){break;}
                     else{delay(100);}
                 }
                 userDisClear(0);newGame=true;//reset
                 seeAnsDisplay();//animation + reset
                 break;
-                }
+            }
             case 'D':{ //**display function**
                 /*press to display the current number range*/
                 for(int i=0;i<4;i++){dimDigit(i);}
                 userDisplay(netLen+1,range);
                 delay(50);
                 while(true){
-                    if(mykeypad.getKey()=='D'){break;}
+                    if(mykeypad.getKey()){break;}
                     else{delay(100);}
                 }//hold the key to keep the display
                 userDisplay(displayCount,userInput);
                 break;
-                }
+            }
             case '#':{
                 /*submit answer*/
+                if(displayCount<=0){break;}
                 int temp=guessNum.commitNumber(userInput,displayCount);
                 switch (temp){
                 case -1:{ //out-of-range
@@ -389,7 +394,7 @@ void loop(){
                     userDisClear(0);
                     userDisplay(netLen+1,range);
                     break;
-                    }
+                }
                 case 0:{  //valid number, display the updated range
                     *range=(char)0; userDisClear(0); //reset
                     lowLen=guessNum.length('L');
@@ -405,13 +410,13 @@ void loop(){
                     userDisplay(netLen+1,range);
                     userDisClear(0);//reset
                     break;
-                    }
+                }
                 case 1:{  //correct number, end of game
                     userDisClear(0);newGame=true; //reset
                     delay(150);
                     victoryDisplay();
                     break;
-                    }
+                }
                 default:
                     break;
                 }
@@ -425,9 +430,10 @@ void loop(){
                     userDisplay(displayCount,userInput);
                 }
                 break;
+            }
             default:
                 break;
-                }
+            
             }
         }
     }

@@ -26,10 +26,10 @@ The following list is how you can play the games step by step.
 5. if the answer is correct, it'll display `4A0B` and a cool `victory animation` before returning to the `MENU`.
 
 
-6. To see the previous `A` and `B` result, press `D`, it will appear on the screen. Press `D` again to return to your current inputs.
+6. To see the previous `A` and `B` result, press `D`, it will appear on the screen. Press any key to return to your current inputs.
 
 
-7. To get the answer key directly, press `C`, it will appear on the screen. Press `C` again to return to the `MENU`.
+7. To get the answer key directly, press `C`, it will appear on the screen. Press any key to return to the `MENU`.
 
 > If you want to play the game again, just press `A` again, it'll generate another answer key and start a new game. 
 
@@ -51,7 +51,7 @@ The following list is how you can play the games step by step.
 
 6. If the answer is correct, a cool `victory animation` will appear on the screen before returning to the `MENU`.
 
-7. To see the current `range`, press `D`, it will appear on the screen. Press `D` again to return to your current inputs.
+7. To see the current `range`, press `D`, it will appear on the screen. Press any key to return to your current inputs.
 
-8. To get the answer key directly, press `C`, it will appear on the screen. Press `C` again to return to the `MENU`.
+8. To get the answer key directly, press `C`, it will appear on the screen. Press any key to return to the `MENU`.
 
